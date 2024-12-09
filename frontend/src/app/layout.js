@@ -2,7 +2,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import LogoBar from './components/LogoBar'
 import Footer from './components/Footer'
-import StoreProvider from './storeProvider'
+import StoreProvider from './StoreProvider'
 import "./components/component-styles.css";
 
 const inter = Inter({ subsets: ['latin'] })
