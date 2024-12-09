@@ -54,7 +54,7 @@ function page() {
       videoId: "h5rgy6",
       link: "#",
     },
-  ]);
+  ])
   return (
     <div className="results-page bg-[#d8d8d8] mt-0">
       <div className="sticky-search sticky top-0 backdrop-blur-sm z-20">

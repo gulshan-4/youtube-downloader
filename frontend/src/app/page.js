@@ -13,7 +13,7 @@ import { FaEye } from "react-icons/fa";
 import { ImClock } from "react-icons/im";
 
 export default function Home() {
-  const [inputUrl, setInputUrl] = useState("");
+  const [inputUrl, setInputUrl] = useState("")
   const loading = useAppSelector(state => state.loading.isLoading) 
   const dispatch  = useAppDispatch()
   const todayMostWatched = useAppSelector(state => state.mostWatchedToday.videos)
