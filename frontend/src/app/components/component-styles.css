@@ -1,0 +1,39 @@
+.logo-bar{
+    /* background: white; */
+}
+.searchbar-modal .searchbar .nav-search-btn{
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+.searchbar-modal .searchbar .nav-search-btn:active{
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+}
+.top-charts-home .tabs button.active{
+    color: #282828;
+}
+/* Footer Styles */
+footer{
+    background: linear-gradient(90deg, #BE2E33 0%, white 0%, rgba(255, 255, 255, 0.75) 51%, white 100%);
+    box-shadow: "0px -3px 4px rgba(0, 0, 0, 0.25)";
+}
+footer .top-charts::before{
+    content: 'Top';
+    display: block;
+    text-align: center;
+    font-family: hemihead;
+    font-weight: 500;
+    font-size: 10px;
+
+    position: absolute;
+    top: 0;
+    color: #ff3c3c;
+    transform: translateY(-8px);
+}
+footer .footer-link.active{
+    background: #D7D7D7;
+    padding: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 4px;
+}

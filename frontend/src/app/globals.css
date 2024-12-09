@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: hemihead;
+  src: url('/fonts/hemihead.ttf');
+}
+@font-face {
+  font-family: handelgothic;
+  src: url('/fonts/handel-gothic-gt.ttf');
+}
+@font-face {
+  font-family: roboto-regular;
+  src: url('/fonts/roboto/Roboto-Regular.ttf');
+}
+@font-face {
+  font-family: roboto-medium;
+  src: url('/fonts/roboto/Roboto-Medium.ttf');
+}
+@font-face {
+  font-family: roboto-bold;
+  src: url('/fonts/roboto/Roboto-Bold.ttf');
+}
+
+body{
+  background-color: #B9B9BB;
+}
