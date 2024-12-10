@@ -22,7 +22,8 @@ app.use(cors());
 // Configure CORS
 const corsOptions = {
   origin: [
-    'https://youtube-downloader-c0xaivi30-00sachin00s-projects.vercel.app',
+    'https://youtube-downloader-xi-one.vercel.app/',
+    'youtube-downloader-n8lj9dacy-00sachin00s-projects.vercel.app',
     'https://vercel.app'
   ],
   methods: ['GET', 'POST'],
