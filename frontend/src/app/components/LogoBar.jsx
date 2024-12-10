@@ -4,7 +4,7 @@ import Link from "next/link";
 import { GoSearch } from "react-icons/go";
 import { GrClose } from "react-icons/gr";
 import { FiSearch } from "react-icons/fi";
-import Image from "next/image";
+// import Image from "next/image";
 
 function LogoBar() {
     const [ displaySearchbar , setDisplaySearchbar] = useState(false)

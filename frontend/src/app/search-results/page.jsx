@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 
-function page() {
+function Page() {
   const [results, setResults] = useState([
     {
       img: "/thumb.jpg",
@@ -100,4 +100,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

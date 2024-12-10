@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import {useAppDispatch, useAppSelector} from '../redux/hooks';
 import { setLoading } from "@/redux/features/loadingSlice";
-import { resetCurrentVideo, setCurrentVideo } from "@/redux/features/currentVideoSlice";
+// import { resetCurrentVideo, setCurrentVideo } from "@/redux/features/currentVideoSlice";
+import { setCurrentVideo } from "@/redux/features/currentVideoSlice";
+
 import { ThreeDots } from "react-loader-spinner";
 import { useRouter } from "next/navigation";
 import { setMostWatchedToday } from "@/redux/features/todayMostWatched";
@@ -18,7 +20,7 @@ export default function Home() {
   const dispatch  = useAppDispatch()
   const todayMostWatched = useAppSelector(state => state.mostWatchedToday.videos)
   const trendingVideos = useAppSelector(state => state.trending.videos)
-  const currentVideo = useAppSelector(state => state.currentVideo.data)
+  // const currentVideo = useAppSelector(state => state.currentVideo.data)
   const router = useRouter();
   const [currentTab , setCurrentTab] = useState({
     mostWatched: true,
@@ -105,7 +107,7 @@ export default function Home() {
       }
     }
     getMostWatchedToday()
-  },[])
+  },[dispatch])
 
   // useEffect(()=>{
   //   if(currentVideoId != null){
