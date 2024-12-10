@@ -21,7 +21,7 @@ app.use(cors());
 
 // Endpoint that recieves url of video and returns video data i.e Title, videoId and video formats (1440, 240p etc.) with direct video links
 app.get("/getData", async (req, res) => {
-  res.set('Access-Control-Allow-Origin', 'https://youtube-downloader-c0xaivi30-00sachin00s-projects.vercel.app');
+  // res.set('Access-Control-Allow-Origin', 'https://youtube-downloader-c0xaivi30-00sachin00s-projects.vercel.app');
   try {
     const videoURL = req.query.url;
 
@@ -68,7 +68,7 @@ app.get("/getData", async (req, res) => {
 });
 app.get("/getDataWithId", async (req, res) => {
   console.log('Getting Data With Id');
-  res.set('Access-Control-Allow-Origin', 'https://youtube-downloader-c0xaivi30-00sachin00s-projects.vercel.app');
+  // res.set('Access-Control-Allow-Origin', 'https://youtube-downloader-c0xaivi30-00sachin00s-projects.vercel.app');
   try {
     const videoURL = `https://www.youtube.com/watch?v=${req.query.id}`;
 
@@ -115,7 +115,7 @@ app.get("/getDataWithId", async (req, res) => {
 
 // Endpoint that recieves title, mimeType, video format (mp4, webp, avi etc), direct downloadble URL/Link of video in chosen quality i.e 144p, 240p, 360p etc and downloads it
 app.get("/download", (req, res) => {
-  res.set('Access-Control-Allow-Origin', 'https://youtube-downloader-c0xaivi30-00sachin00s-projects.vercel.app');
+  // res.set('Access-Control-Allow-Origin', 'https://youtube-downloader-c0xaivi30-00sachin00s-projects.vercel.app');
   console.log('download hit');
   try {
     const streamableVideoURL = req.query.url;
@@ -148,7 +148,7 @@ console.log(streamableVideoURL);
 
 //Endpoint that recieves 'title' and 'url' of audio track and downloads it
 app.get("/downloadAudio", (req, res) => {
-  res.set('Access-Control-Allow-Origin', 'https://youtube-downloader-c0xaivi30-00sachin00s-projects.vercel.app');
+  // res.set('Access-Control-Allow-Origin', 'https://youtube-downloader-c0xaivi30-00sachin00s-projects.vercel.app');
   try {
     const audioURL = req.query.url;
     const title = req.query.title;
