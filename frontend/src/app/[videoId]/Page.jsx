@@ -23,7 +23,7 @@ function VideoPage() {
 useEffect(()=>{
   console.log('set currrent video');
   dispatch(resetCurrentVideo())
-}, [])
+}, [dispatch])
 
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
@@ -148,7 +148,7 @@ useEffect(() => {
   if (!currentVideo.videoId) {
     fetchData();
   }
-}, [currentVideo]);
+}, [currentVideo , dispatch]);
 const hitMostDownloadedAPI = async () => {
   try {
       const resp = await fetch(`${baseServerUrl}/most-downloaded`, {
