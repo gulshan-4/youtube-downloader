@@ -3,7 +3,6 @@ const youtube = new Client();
 
 
 async function mostWatchedMonthly(req, res) {
-  res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
   try {
     const videos = await youtube.search("", {
       type: "video",

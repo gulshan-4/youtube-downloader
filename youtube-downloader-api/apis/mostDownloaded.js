@@ -3,7 +3,6 @@ const path = require('path');
 const fs = require('fs').promises;
 
 async function mostDownloaded(req, res){  
-    res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
     try {
         const dbFile = path.join(__dirname, '..', 'db/mostDownloaded.json');  
         // Read existing data from mostDownloaded.json
