@@ -25,7 +25,7 @@ const corsOptions = {
     'https://youtube-downloader-xi-one.vercel.app/',
     'https://youtube-downloader-n8lj9dacy-00sachin00s-projects.vercel.app',
     'https://vercel.app',
-    'http://localhost:3000'
+    // 'http://localhost:3000'
   ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
