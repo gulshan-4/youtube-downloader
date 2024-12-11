@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { resetCurrentVideo, setCurrentVideo } from "@/redux/features/currentVideoSlice";
 import './videopage-styles.css'
 import { ThreeDots } from "react-loader-spinner";
+import { BsVolumeMute } from "react-icons/bs";
 
 const baseServerUrl = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
 
@@ -72,14 +73,14 @@ useEffect(() => {
     
     let mp4Formats = currentVideo.formats.filter((format) =>{
       console.log('currentVideo :' , currentVideo);
-      return (format.container?.includes("mp4") && format.qualityLabel?.length && format.contentLength)
+      return (format.mimeType?.includes("video/mp4") && format.qualityLabel?.length && format.contentLength)
     }     
     );
 
     // Group formats by quality
     let groupedFormats = {};
     mp4Formats.forEach((format) => {
-      console.log(format);
+      // console.log(mp4Formats);
       
       if (
         !groupedFormats[format.qualityLabel] ||
@@ -89,9 +90,12 @@ useEffect(() => {
           sizeInBytes: format.contentLength,
           quality: format.qualityLabel,
           url: format.url,
+          hasAudio : format.hasAudio
         };
       }
     });
+    console.log('mp4formats :' , mp4Formats);
+    
     let groupedAudioFormats = {}
     currentVideo.audioFormats.forEach((format) => {
       if (
@@ -112,6 +116,7 @@ useEffect(() => {
 // console.log(filteredAudioFormats);
 setAudioFormats(filteredAudioFormats);
 setFormats(filteredFormats);
+console.log(filteredFormats);
 
     //------------Keep dublicates of qualities-------------//
 // let updatedFormats = mp4Formats.map(object => ({
@@ -345,6 +350,9 @@ if (!currentVideo.videoId) {
                   className="option flex items-center w-full justify-between font-handel-gothic gap-5 py-3 px-5 border-b border-[#C89294]"
                 >
                   <span className="quality text-xs text-[#848484]">
+                    {
+                      format.hasAudio ==  false ? <BsVolumeMute size={14} className=" text-primary-red inline mr-[2px]" /> : ""
+                    }
                     {format.quality == "2160p" ? (
                       <>
                         {format.quality}

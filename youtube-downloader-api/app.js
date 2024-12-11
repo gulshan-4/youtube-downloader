@@ -25,7 +25,7 @@ const corsOptions = {
     'https://youtube-downloader-xi-one.vercel.app/',
     'https://youtube-downloader-n8lj9dacy-00sachin00s-projects.vercel.app',
     'https://vercel.app',
-    // 'http://localhost:3000'
+    'http://localhost:3000'
   ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
@@ -135,6 +135,7 @@ app.get("/download", (req, res) => {
     const videoTitle = req.query.title
     const mimeType = req.query.mimeType
     const videoFormat = req.query.format
+
 console.log(streamableVideoURL);
 
     // Validate the streamable video URL
