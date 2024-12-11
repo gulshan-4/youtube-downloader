@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { resetCurrentVideo, setCurrentVideo } from "@/redux/features/currentVideoSlice";
 import './videopage-styles.css'
 import { ThreeDots } from "react-loader-spinner";
-import { BsVolumeMute } from "react-icons/bs";
+import { BsVolumeMute } from "react-icons/bs"
 
 const baseServerUrl = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
 
