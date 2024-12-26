@@ -2,9 +2,11 @@ const path = require('path');
 
 const fs = require('fs').promises;
 
-async function mostDownloaded(req, res){  
+async function mostDownloaded(req, res){ 
+    console.log('most download added'); 
     try {
         const dbFile = path.join(__dirname, '..', 'db/mostDownloaded.json');  
+        
         // Read existing data from mostDownloaded.json
         const data = await fs.readFile(dbFile);
         const existingObjects = JSON.parse(data);

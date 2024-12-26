@@ -3,11 +3,11 @@ import { useRouter } from "next/navigation";
 import { IoMdDownload } from "react-icons/io";
 import YouTube from 'react-youtube';
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { resetCurrentVideo, setCurrentVideo } from "@/redux/features/currentVideoSlice";
 import './videopage-styles.css'
 import { ThreeDots } from "react-loader-spinner";
-import { BsVolumeMute } from "react-icons/bs"
+import { BsVolumeMute, BsVolumeUpFill } from "react-icons/bs";
 
 const baseServerUrl = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
 
@@ -63,8 +63,8 @@ function getTimeAgo(uploadDate) {
       return 'Just now';
   }
 }
-  // console.log(currentVideo)
 
+  // console.log('currentVideo :' , currentVideo);
 useEffect(() => {
   if (currentVideo.videoId) {
     // console.log(
@@ -72,10 +72,16 @@ useEffect(() => {
     // );
     
     let mp4Formats = currentVideo.formats.filter((format) =>{
-      console.log('currentVideo :' , currentVideo);
-      return (format.mimeType?.includes("video/mp4") && format.qualityLabel?.length && format.contentLength)
+      return (format.mimeType?.includes("video") && format.qualityLabel?.length && !format.qualityLabel.includes('HDR') && format.contentLength)
     }     
     );
+
+    let withAudio = currentVideo.formats.filter((format) =>{
+      return (format.hasAudio == true)
+    }     
+    );
+    console.log("withAudio: " , withAudio);
+    
 
     // Group formats by quality
     let groupedFormats = {};
@@ -111,7 +117,16 @@ useEffect(() => {
     });
 
     // Collect the highest-size formats into a new array
-    let filteredFormats = Object.values(groupedFormats).sort((a, b) => b.sizeInBytes - a.sizeInBytes);
+    let filteredFormats = Object.values(groupedFormats).sort((a, b) => {
+      if (a.hasAudio && !b.hasAudio) {
+          return -1; // a should come before b
+      } else if (!a.hasAudio && b.hasAudio) {
+          return 1; // b should come before a
+      }
+      // If both have the same hasAudio value, sort by sizeInBytes
+      return b.sizeInBytes - a.sizeInBytes;
+  });
+  
     let filteredAudioFormats = Object.values(groupedAudioFormats).sort((a, b) => b.audioBitrate - a.audioBitrate);
 // console.log(filteredAudioFormats);
 setAudioFormats(filteredAudioFormats);
@@ -153,7 +168,7 @@ useEffect(() => {
   if (!currentVideo.videoId) {
     fetchData();
   }
-}, [currentVideo , dispatch]);
+}, [currentVideo.videoId , dispatch]);
 const hitMostDownloadedAPI = async () => {
   try {
       const resp = await fetch(`${baseServerUrl}/most-downloaded`, {
@@ -166,7 +181,6 @@ const hitMostDownloadedAPI = async () => {
       if (!resp.ok) {
           throw new Error(`Failed while hitting Most Downloaded API: ${resp.status} ${resp.statusText}`);
       }
-      console.log(resp);
       return resp.json();
   } catch (error) {
       console.error("Error:", error);
@@ -241,7 +255,7 @@ if (!currentVideo.videoId) {
   </div>; // or display a loading indicator
 }
   return (
-    <div className="video-page bg-[#f4f4f4] min-h-[91vh] mb-[63px]">
+      <div className="video-page bg-[#f4f4f4] min-h-[91vh] mb-[63px]">
       {downloading && (
         <div className="loading absolute top-0 left-0 w-full h-full bg-[#ffffff73] backdrop-blur-[1px] z-50 flex flex-col items-center justify-center">
           <div className=" text-lg text-[#565656] font-bold -mb-[20px]">
@@ -351,7 +365,8 @@ if (!currentVideo.videoId) {
                 >
                   <span className="quality text-xs text-[#848484]">
                     {
-                      format.hasAudio ==  false ? <BsVolumeMute size={14} className=" text-primary-red inline mr-[2px]" /> : ""
+                      format.hasAudio ==  false ? <BsVolumeMute size={14} className=" text-primary-red inline mr-[2px]" /> 
+                      : <BsVolumeUpFill size={14} className=" text-green-500 inline mr-[3px]" />
                     }
                     {format.quality == "2160p" ? (
                       <>

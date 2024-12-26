@@ -4,10 +4,24 @@ import Link from "next/link";
 import { GoSearch } from "react-icons/go";
 import { GrClose } from "react-icons/gr";
 import { FiSearch } from "react-icons/fi";
+import { useRouter } from "next/navigation";
 // import Image from "next/image";
 
 function LogoBar() {
     const [ displaySearchbar , setDisplaySearchbar] = useState(false)
+      const [searchQuery, setSearchQuery] = useState("");
+      const router = useRouter()
+
+      function handleSearch(e){
+        setSearchQuery(e.target.value)
+      }
+      function handleEnterKey(e) {
+        if (e.key === "Enter") {
+          // If Enter key is pressed, trigger search
+          setDisplaySearchbar(false);
+          router.push(`/search/${searchQuery}`);
+        }
+      }
 
   return (
     <>
@@ -43,11 +57,19 @@ function LogoBar() {
         <input 
         type="search" 
         name="search" 
+        onChange={(e) => handleSearch(e)}
+        onKeyDown={(e) => handleEnterKey(e)}
+        value={searchQuery}
         id="nav-search" 
         placeholder="Search any Video..."
         className=" border-2 border-secondary-red text-center py-2 w-[75%] bg-white text-lg rounded-sm outline-none"
         />
-        <button className=" nav-search-btn bg-white text-[24px] font-roboto-reg text-secondary-red px-4 py-[2px] flex items-center gap-1">
+        <button 
+        onClick={() => {
+          setDisplaySearchbar(false)
+          router.push(`/search/${searchQuery}`)
+        }}
+        className=" nav-search-btn bg-white text-[24px] font-roboto-reg text-secondary-red px-4 py-[2px] flex items-center gap-1">
             <span>Search</span>
             <FiSearch size={24} className=" transform translate-y-[1px]" />
         </button>

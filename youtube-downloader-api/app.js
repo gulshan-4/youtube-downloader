@@ -1,4 +1,3 @@
-
 const express = require("express");
 const ytdl = require("@distube/ytdl-core");
 const cors = require('cors');
@@ -13,9 +12,11 @@ const mostWatchedWeekly = require('./apis/mostWatchedWeekly');
 const mostWatchedMonthly = require('./apis/mostWatchedMonthly');
 const mostWatchedYearly = require('./apis/mostWatchedYearly');
 const mostDownloaded = require("./apis/mostDownloaded");
+const getMostDownloaded = require("./apis/getMostDownloaded");
+const searchYoutube = require("./apis/searchYoutube");
 
 app.use(errorHandler)
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
@@ -44,7 +45,9 @@ app.get("/getData", async (req, res) => {
     }
 
     // Get video info
-    const info = await ytdl.getInfo(videoURL);
+    const info = await ytdl.getInfo(videoURL , {
+      playerClients: ["WEB", "ANDROID"]
+    });
     // Extract audio streams
     const audioFormats = info.formats
     .filter(format => format.mimeType === 'audio/webm; codecs="opus"')
@@ -57,6 +60,7 @@ app.get("/getData", async (req, res) => {
       audioFormats: audioFormats,
       videoId: info.videoDetails.videoId,
       views: info.videoDetails.viewCount,
+      thumbnails: info.videoDetails.thumbnails,
       lengthInseconds: info.videoDetails.lengthSeconds,
       channelUrl: info.videoDetails.ownerProfileUrl,
       channelName: info.videoDetails.ownerChannelName,
@@ -91,7 +95,9 @@ app.get("/getDataWithId", async (req, res) => {
     }
 
     // Get video info
-    const info = await ytdl.getInfo(videoURL);
+    const info = await ytdl.getInfo(videoURL , {
+      playerClients: ["WEB", "ANDROID"]
+    });
     // console.log(info);
       // Extract audio streams
       const audioFormats = info.formats
@@ -103,11 +109,13 @@ app.get("/getDataWithId", async (req, res) => {
       audioFormats: audioFormats,
       videoId: info.videoDetails.videoId,
       views: info.videoDetails.viewCount,
+      thumbnails: info.videoDetails.thumbnails,
       lengthInseconds: info.videoDetails.lengthSeconds,
       channelUrl: info.videoDetails.ownerProfileUrl,
       channelName: info.videoDetails.ownerChannelName,
       uploadDate: info.videoDetails.uploadDate
     }
+    
     
 
     // // Choose the highest quality video format
@@ -136,7 +144,7 @@ app.get("/download", (req, res) => {
     const mimeType = req.query.mimeType
     const videoFormat = req.query.format
 
-console.log(streamableVideoURL);
+// console.log(streamableVideoURL);
 
     // Validate the streamable video URL
     if (!streamableVideoURL) {
@@ -196,6 +204,8 @@ app.get('/most-watched-monthly', mostWatchedMonthly);
 app.get('/most-watched-yearly', mostWatchedYearly);
 app.get('/most-watched-today', mostWatchedToday)
 app.post('/most-downloaded', mostDownloaded)
+app.get('/get-most-downloaded', getMostDownloaded)
+app.get('/search-youtube', searchYoutube)
 
 // Start the server
 app.listen(port, () => {

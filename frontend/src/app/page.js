@@ -13,12 +13,15 @@ import { useRouter } from "next/navigation";
 import { setMostWatchedToday } from "@/redux/features/todayMostWatched";
 import { FaEye } from "react-icons/fa";
 import { ImClock } from "react-icons/im";
+import { setMostDownloaded } from "@/redux/features/mostDownloaded";
 
 export default function Home() {
   const [inputUrl, setInputUrl] = useState("")
   const loading = useAppSelector(state => state.loading.isLoading) 
   const dispatch  = useAppDispatch()
   const todayMostWatched = useAppSelector(state => state.mostWatchedToday.videos)
+  const mostDownloaded = useAppSelector(state => state.mostDownloaded.videos)
+
   const trendingVideos = useAppSelector(state => state.trending.videos)
   // const currentVideo = useAppSelector(state => state.currentVideo.data)
   const router = useRouter();
@@ -106,9 +109,45 @@ export default function Home() {
         alert("Connection Failed. Try again.");
       }
     }
+    const getMostDownloaded = async ()=>{
+      dispatch(setLoading(true))
+      try {
+        const baseServerUrl = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
+  
+        console.log(`${baseServerUrl}/get-most-downloaded`);
+    
+        // Make GET request to fetch video data
+        const response = await fetch(`${baseServerUrl}/get-most-downloaded`);
+        
+        // Check if response is successful
+        if (!response.ok) {
+          throw new Error(`Failed to fetch video data: ${response.status} ${response.statusText}`);
+        }
+    
+        // Parse JSON response
+        const data = await response.json();
+        console.log('fetched data' , data);
+        dispatch(setLoading(false))
+        dispatch(setMostDownloaded(data))
+        // Now you can handle the response data, such as displaying it to the user or triggering the download process
+      } catch (error) {
+        console.error("Error:", error);
+        dispatch(setLoading(false))
+        alert("Connection Failed. Try again.");
+      }
+    }
     getMostWatchedToday()
+    getMostDownloaded()
+    
   },[dispatch])
+console.log('most downloaded: ' , mostDownloaded);
+const formatTime = (seconds) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
 
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+};
   // useEffect(()=>{
   //   if(currentVideoId != null){
   //     router.push(`/${currentVideo.videoId}`)
@@ -209,7 +248,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="trending mb-[52px] bg-white h-full overflow-y-auto z-10">
-            {trendingVideos.map((video, index) => (
+            {mostDownloaded.map((video, index) => (
               <Link
                 key={index}
                 href={video.videoId}
@@ -217,7 +256,7 @@ export default function Home() {
                 className="video-row relative bg-white border-b border-b-[#00000034] flex mb-2 overflow-hidden"
               >
                 <Image
-                  src={video.img}
+                  src={video?.thumbnails[video.thumbnails.length -1]?.url}
                   className=" aspect-[159/89] max-w-[35%]"
                   width={159}
                   height={89}
@@ -227,7 +266,7 @@ export default function Home() {
                   {video.title}
                 </h2>
                 <div className="duration absolute bottom-0 font-roboto-reg text-sm px-[3px] py-[1px] left-0 rounded-tr w-max bg-[#ffffffbf]">
-                  8:23
+                  {formatTime(parseInt(video.lengthInseconds))}
                 </div>
               </Link>
             ))}
