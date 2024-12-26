@@ -20,7 +20,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-// Configure CORS
+//Configure CORS
 const corsOptions = {
   origin: [
     'https://youtube-downloader-xi-one.vercel.app/',
