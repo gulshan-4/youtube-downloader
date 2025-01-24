@@ -14,6 +14,9 @@ const mostWatchedYearly = require('./apis/mostWatchedYearly');
 const mostDownloaded = require("./apis/mostDownloaded");
 const getMostDownloaded = require("./apis/getMostDownloaded");
 const searchYoutube = require("./apis/searchYoutube");
+const igDownloader = require("./apis/igDownloader")
+const fbDownloader = require("./apis/fbDownloader")
+const tiktokDownloader = require("./apis/tiktokDownloader")
 
 app.use(errorHandler)
 app.use(express.json({ limit: '10mb' }));
@@ -26,7 +29,8 @@ const corsOptions = {
     'https://youtube-downloader-xi-one.vercel.app/',
     'https://youtube-downloader-n8lj9dacy-00sachin00s-projects.vercel.app',
     'https://vercel.app',
-    // 'http://localhost:3000'
+    // 'http://localhost:3000',
+    // 'http://localhost'
   ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
@@ -206,6 +210,9 @@ app.get('/most-watched-today', mostWatchedToday)
 app.post('/most-downloaded', mostDownloaded)
 app.get('/get-most-downloaded', getMostDownloaded)
 app.get('/search-youtube', searchYoutube)
+app.get('/ig-downloader', igDownloader)
+app.get('/fb-downloader', fbDownloader)
+app.get('/tiktok-downloader', tiktokDownloader)
 
 // Start the server
 app.listen(port, () => {
